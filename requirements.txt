@@ -1,0 +1,15 @@
+bitsandbytes==0.46.0
+accelerate==1.10.1
+appdirs
+black
+datasets==2.15.0
+fire
+peft==0.15.2
+transformers==4.53.0
+sentencepiece
+wandb
+scipy
+numpy
+sentence_transformers
+scikit-learn
+pandas
