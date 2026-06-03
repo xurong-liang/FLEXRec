@@ -38,11 +38,20 @@ pip install torch==2.8.0 torchvision==0.23.0
 pip install -r requirements.txt
 ```
 
+Note: this codebase currently supports single-GPU training only. Set the GPU to use via the `CUDA_VISIBLE_DEVICES` environment variable, for example:
+
+```bash
+export CUDA_VISIBLE_DEVICES=0
+```
+
 ## Workflow
 
-### 1. Preprocess raw data
 
-The preprocessing scripts in `datasets/code` use relative paths, so run them from that directory.
+### 1. Preprocess raw data (optional — preprocessed datasets included)
+
+Preprocessed sequential datasets are included in `datasets/sequential`. You can skip this step if you want to use the provided datasets (for example: `datasets/sequential/Toys_and_Games/Toys_and_Games.txt`).
+
+If you prefer to regenerate datasets, the preprocessing scripts in `datasets/code` use relative paths, so run them from that directory.
 
 Example for Amazon `Toys_and_Games`:
 
@@ -70,6 +79,7 @@ Example command:
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python finetune.py \
   --base_model Qwen/Qwen3-0.6B \
   --data_path ./datasets/sequential/Toys_and_Games \
@@ -81,6 +91,8 @@ python finetune.py \
   --num_epochs 2 \
   --learning_rate 0.0002 
 ```
+
+(Tip: set `CUDA_VISIBLE_DEVICES` before running to select the single GPU, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
 
 This writes a stage-1 folder like:
 
@@ -99,6 +111,7 @@ Example command:
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python train_intermediate_heads.py \
   --load_model_path ./output/Toys_and_Games/Qwen3-0.6B-sequential-2-epochs \
   --batch_size 128 \
@@ -110,6 +123,8 @@ python train_intermediate_heads.py \
   --save_all_user_eval_res=False \
   --prompt_template_name alpaca
 ```
+
+(Tip: set `CUDA_VISIBLE_DEVICES` before running to select the single GPU, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
 
 This writes:
 
@@ -128,6 +143,7 @@ Example command:
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python train_FLEXRec.py \
   --load_model_path ./output/Toys_and_Games/Qwen3-0.6B-sequential-2-epochs/LLM4RecWithMultiPredHead_exit_intervals_1 \
   --batch_size 32 \
@@ -148,6 +164,8 @@ python train_FLEXRec.py \
   --early_stop_patience 10
 ```
 
+(Tip: set `CUDA_VISIBLE_DEVICES` before running to select the single GPU, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
+
 This writes a stage-3 folder under:
 
 - `.../LLM4RecWithMultiPredHead_exit_intervals_1/FLEXRec/`
@@ -164,31 +182,40 @@ Important files:
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python LLM4Rec_eval_from_config.py \
   --load_model_path ./output/Toys_and_Games/Qwen3-0.6B-sequential-2-epochs \
   --eval_over_candidate_items=False \
   --save_eval_res=True
 ```
 
+(Tip: for eval runs that use the GPU, set `CUDA_VISIBLE_DEVICES` before running, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
+
 ### Evaluate stage 2 checkpoint
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python LLM4RecWithMultiPredHead_eval_from_config.py \
   --load_model_path ./output/Toys_and_Games/Qwen3-0.6B-sequential-2-epochs/LLM4RecWithMultiPredHead_exit_intervals_1 \
   --eval_over_candidate_items=True \
   --save_eval_res=True
 ```
 
+(Tip: for eval runs that use the GPU, set `CUDA_VISIBLE_DEVICES` before running, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
+
 ### Evaluate stage 3 checkpoint
 
 ```bash
 export HF_TOKEN=your_huggingface_token
+export CUDA_VISIBLE_DEVICES=0
 python FLEXRec_eval_from_config.py \
   --load_model_path ./output/Toys_and_Games/Qwen3-0.6B-sequential-2-epochs/LLM4RecWithMultiPredHead_exit_intervals_1/FLEXRec/<stage3-folder> \
   --eval_over_candidate_items=False \
   --save_eval_res=True
 ```
+
+(Tip: for eval runs that use the GPU, set `CUDA_VISIBLE_DEVICES` before running, e.g. `export CUDA_VISIBLE_DEVICES=0`.)
 
 
 
