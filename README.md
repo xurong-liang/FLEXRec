@@ -226,3 +226,25 @@ Stage 1 and stage 2 checkpoints are saved in compact incremental form rather tha
 - stage 1 saves LoRA plus recommender trainable components
 - stage 2 saves stage-1 incremental weights plus intermediate heads
 - stage 3 saves only the FLEXRec router parameters
+
+
+
+## Baseline Implementation & Hyperparameters
+
+For all traditional sequential recommendation methods and standard LLM-based methods, we utilize their default hyperparameter settings as reported in their respective original implementations. 
+
+To ensure a fair comparison for the routing architectures, we implement the MoE baselines on top of our multi-layer E4SRec architecture. The specific hyperparameters tuned for these routing baselines are detailed below:
+
+### 1. SparseToken
+* **Target Experts ($k$):** `3`
+* **Load Balancing Loss Weight:** Tuned from `{0.01, 0.05, 0.1, 0.25, 0.5}`
+
+### 2. DynamicMoE
+* **Confidence Threshold ($p$):** `0.4` (set to avoid over-concentration on a single prediction layer)
+* **Load Balancing Loss Weight:** Tuned from `{0.01, 0.05, 0.1, 0.25, 0.5}`
+* **Dynamic Loss Factor:** Tuned from `{1e-5, 1e-4, 1e-3, 1e-2, 1e-1}`
+
+### 3. LD-MoLE
+* **Target Experts ($k$):** `3`
+* **Load Balancing Loss Factor:** Tuned from `{0.005, 0.01, 0.05, 0.1, 0.15}`
+* **Sparsity Loss Factor:** Tuned from `{0.01, 0.05, 0.25, 0.5, 1.0}`
