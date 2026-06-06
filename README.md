@@ -228,6 +228,29 @@ Stage 1 and stage 2 checkpoints are saved in compact incremental form rather tha
 - stage 3 saves only the FLEXRec router parameters
 
 
+## Training Runtime Benchmarks
+
+We provide the average training runtimes for each stage of the FLEXRec framework across our evaluated datasets and LLM backbones. 
+
+**Hardware Specifications:**
+* **GPU:** Single NVIDIA H100 PCIe (80GB)
+* **CPU:** AMD EPYC 7443
+* **RAM:** 50GB
+
+**Notes on Runtimes:**
+* **Single Epoch Average:** All times reported below reflect the average runtime for a **single epoch**. 
+* **Stage 3 Evaluation Overhead:** The runtime for Stage 3 includes the overhead of intermittent model validation and evaluation, which is conducted every 500 batches.
+
+| Dataset | LLM Backbone | Stage 1 | Stage 2 | Stage 3 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Toys** | Qwen 3 1.7B | 2:05:34 | 1:31:46 | 1:13:48 |
+| **Toys** | Llama 3.2 3B | 2:55:36 | 2:41:20 | 1:28:52 |
+| **Beauty** | Qwen 3 1.7B | 2:13:05 | 2:04:57 | 1:45:02 |
+| **Beauty** | Llama 3.2 3B | 3:08:30 | 2:46:08 | 2:10:50 |
+| **Yelp** | Qwen 3 1.7B | 3:20:22 | 3:20:04 | 2:13:53 |
+| **Yelp** | Llama 3.2 3B | 4:33:43 | 4:13:10 | 3:21:20 |
+
+
 
 ## Baseline Implementation & Hyperparameters
 
