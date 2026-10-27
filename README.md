@@ -2,6 +2,20 @@
 
 This is the official repo of our proposed framework **FLEXRec: Fusion of Layer-wise Exits for Sequential Recommendation**.
 
+Our paper, [**Empowering Compact LLMs with Fusion of Layer-wise Exits for Recommendation**](https://arxiv.org/abs/2608.17316), has been accepted to **ICDM 2026**.
+
+If you use this work, please cite:
+
+```bibtex
+@inproceedings{liang2026learning,
+  title={Empowering Compact LLMs with Fusion of Layer-wise Exits for Recommendation},
+  author={Liang, Xurong and Chen, Tong and Nguyen, Quoc Viet Hung and Li, Jianxin and Zhang, Xiangliang and Yin, Hongzhi},
+  booktitle={2026 IEEE International Conference on Data Mining (ICDM)},
+  year={2026},
+  organization={IEEE}
+}
+```
+
 It contains the following workflow:
 
 1. preprocess raw data into sequential format
